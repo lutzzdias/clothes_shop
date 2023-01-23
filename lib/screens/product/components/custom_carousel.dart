@@ -22,6 +22,12 @@ class _CustomCarouselState extends State<CustomCarousel> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
+  void onImageSelected(File file) {
+    widget.state?.value.add(file);
+    widget.state?.didChange(widget.state?.value);
+    Navigator.of(context).pop();
+  }
+
   List<Widget> _buildImagesList() {
     List<Widget> list = widget.images.map<Widget>((image) {
       if (image is String) {
@@ -56,9 +62,17 @@ class _CustomCarouselState extends State<CustomCarousel> {
                 if (Platform.isAndroid)
                   showModalBottomSheet(
                     context: context,
-                    builder: (_) => ImageSourceSheet(),
+                    builder: (_) => ImageSourceSheet(
+                      onImageSelected: onImageSelected,
+                    ),
                   );
-                else showCupertinoModalPopup(context: context, builder: (_) => ImageSourceSheet(),);
+                else
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (_) => ImageSourceSheet(
+                      onImageSelected: onImageSelected,
+                    ),
+                  );
               },
             ),
           ),
@@ -135,7 +149,7 @@ class _CustomCarouselState extends State<CustomCarousel> {
             children: _buildEditDot(),
           ),
         ),
-        if (widget.state != null)
+        if (widget.state != null && _current != widget.images.length)
           Align(
             alignment: Alignment.topRight,
             child: IconButton(

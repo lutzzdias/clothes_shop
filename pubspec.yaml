@@ -61,6 +61,12 @@ dependencies:
   # Fake data generator
   faker: ^2.1.0
 
+  # Image picker to pick image from gallery
+  image_picker: ^0.8.6+1
+
+  # Image cropper in order to crop the selected image before adding it to a product
+  image_cropper: ^3.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
