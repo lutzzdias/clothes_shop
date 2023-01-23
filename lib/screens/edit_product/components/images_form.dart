@@ -13,9 +13,34 @@ class ImagesForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormField<List<dynamic>>(
       initialValue: List.from(product.images),
-      builder: (state) => CustomCarousel(
-        images: state.value!,
-        state: state,
+      validator: (images) {
+        if (images == null || images.isEmpty)
+          return 'Insira ao menos uma imagem';
+        else
+          return null;
+      },
+      builder: (state) => Column(
+        children: [
+          CustomCarousel(
+            images: state.value!,
+            state: state,
+          ),
+          if (state.hasError)
+            Container(
+              margin: EdgeInsets.only(
+                top: 16,
+                left: 16,
+              ),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                state.errorText!,
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
