@@ -113,15 +113,16 @@ class EditProductScreen extends StatelessWidget {
                           ),
                           onPressed: product.loading
                               ? null
-                              : () async {
+                              : () {
                                   if (_formKey.currentState != null &&
                                       _formKey.currentState!.validate())
                                     _formKey.currentState!.save();
-                                  await product.save();
-                                  context
-                                      .read<ProductManager>()
-                                      .update(product);
-                                  Navigator.of(context).pop();
+                                  product.save().then((_) {
+                                    context
+                                        .read<ProductManager>()
+                                        .update(product);
+                                    Navigator.of(context).pop();
+                                  });
                                 },
                           child: product.loading
                               ? const CircularProgressIndicator(

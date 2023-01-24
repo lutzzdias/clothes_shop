@@ -20,7 +20,7 @@ class SectionList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionHeader(),
+            const SectionHeader(),
             SizedBox(
               height: 150,
               child: Consumer<Section>(
@@ -32,7 +32,7 @@ class SectionList extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(width: 4),
                   itemBuilder: (_, index) => index < section.items.length
                       ? ItemTile(item: section.items[index])
-                      : AddTileWidget(),
+                      : const AddTileWidget(),
                 ),
               ),
             )

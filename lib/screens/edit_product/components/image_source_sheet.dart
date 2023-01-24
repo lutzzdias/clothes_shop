@@ -13,7 +13,7 @@ class ImageSourceSheet extends StatelessWidget {
     required this.onImageSelected,
   }) : super(key: key);
 
-  Future<void> editImage(BuildContext context, String path) async {
+  Future<void> editImage(Color color, String path) async {
     ImageCropper cropper = ImageCropper();
     final CroppedFile? croppedFile = await cropper.cropImage(
       sourcePath: path,
@@ -21,7 +21,7 @@ class ImageSourceSheet extends StatelessWidget {
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Editar Imagem',
-          toolbarColor: Theme.of(context).primaryColor,
+          toolbarColor: color,
           toolbarWidgetColor: Colors.white,
         ),
         IOSUiSettings(
@@ -37,6 +37,7 @@ class ImageSourceSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color primaryColor = Theme.of(context).primaryColor;
     if (Platform.isAndroid)
       return BottomSheet(
         onClosing: () {},
@@ -48,7 +49,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final XFile? file =
                     await picker.pickImage(source: ImageSource.camera);
-                editImage(context, file?.path ?? '');
+                editImage(primaryColor, file?.path ?? '');
               },
               child: const Text('Câmera'),
             ),
@@ -56,7 +57,7 @@ class ImageSourceSheet extends StatelessWidget {
               onPressed: () async {
                 final XFile? file =
                     await picker.pickImage(source: ImageSource.gallery);
-                editImage(context, file?.path ?? '');
+                await editImage(primaryColor, file?.path ?? '');
               },
               child: const Text('Galeria'),
             ),
@@ -77,7 +78,7 @@ class ImageSourceSheet extends StatelessWidget {
             onPressed: () async {
               final XFile? file =
                   await picker.pickImage(source: ImageSource.camera);
-              editImage(context, file?.path ?? '');
+              editImage(primaryColor, file?.path ?? '');
             },
             child: const Text('Câmera'),
           ),
@@ -85,7 +86,7 @@ class ImageSourceSheet extends StatelessWidget {
             onPressed: () async {
               final XFile? file =
                   await picker.pickImage(source: ImageSource.gallery);
-              editImage(context, file?.path ?? '');
+              editImage(primaryColor, file?.path ?? '');
             },
             child: const Text('Galeria'),
           ),

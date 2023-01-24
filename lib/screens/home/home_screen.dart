@@ -61,8 +61,8 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (_) => ['Salvar', 'Descartar']
                               .map(
                                 (text) => PopupMenuItem(
-                                  child: Text(text),
                                   value: text,
+                                  child: Text(text),
                                 ),
                               )
                               .toList(),
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
 
                   if (homeManager.editing)
                     children.add(
-                      AddSectionWidget(),
+                      const AddSectionWidget(),
                     );
                   return SliverList(
                     delegate: SliverChildListDelegate(children),

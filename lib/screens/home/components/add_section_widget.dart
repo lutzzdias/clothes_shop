@@ -19,7 +19,7 @@ class AddSectionWidget extends StatelessWidget {
             onPressed: () {
               homeManager.addSection(Section(type: 'List'));
             },
-            child: Text('Adicionar lista'),
+            child: const Text('Adicionar lista'),
           ),
         ),
         Expanded(
@@ -30,7 +30,7 @@ class AddSectionWidget extends StatelessWidget {
             onPressed: () {
               homeManager.addSection(Section(type: 'Staggered'));
             },
-            child: Text('Adicionar grade'),
+            child: const Text('Adicionar grade'),
           ),
         ),
       ],

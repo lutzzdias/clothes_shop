@@ -31,6 +31,11 @@ class Section extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeItem(SectionItem item) {
+    items.remove(item);
+    notifyListeners();
+  }
+
   @override
   String toString() {
     return 'Section { name: $name, type: $type, items: $items }';

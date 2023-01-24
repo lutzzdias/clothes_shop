@@ -28,7 +28,7 @@ class SectionStaggered extends StatelessWidget {
     }
     if (homeManager.editing)
       items.add(
-        AddTileWidget(),
+        const AddTileWidget(),
       );
     return items;
   }
@@ -43,7 +43,7 @@ class SectionStaggered extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionHeader(),
+            const SectionHeader(),
             Consumer<Section>(
               builder: (_, section, __) => StaggeredGrid.count(
                 crossAxisCount: 4,

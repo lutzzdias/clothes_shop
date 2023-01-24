@@ -109,7 +109,7 @@ class Product extends ChangeNotifier {
         updateImages.add(newImage as String);
       } else {
         final TaskSnapshot task =
-            await storageRef.child(Uuid().v4()).putFile(newImage as File);
+            await storageRef.child(const Uuid().v4()).putFile(newImage as File);
         String url = await task.ref.getDownloadURL();
         updateImages.add(url);
       }
