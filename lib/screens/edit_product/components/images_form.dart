@@ -19,6 +19,7 @@ class ImagesForm extends StatelessWidget {
         else
           return null;
       },
+      onSaved: (images) => product.newImages = images!,
       builder: (state) => Column(
         children: [
           CustomCarousel(
@@ -27,7 +28,7 @@ class ImagesForm extends StatelessWidget {
           ),
           if (state.hasError)
             Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 16,
                 left: 16,
               ),

@@ -67,6 +67,9 @@ dependencies:
   # Image cropper in order to crop the selected image before adding it to a product
   image_cropper: ^3.0.1
 
+  # ID generator in order to create unique names for images in storage
+  uuid: ^3.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -23,6 +23,12 @@ class ItemSize {
 
   ItemSize clone() => ItemSize(name: name, price: price, stock: stock);
 
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'price': price,
+        'stock': stock,
+      };
+
   @override
   String toString() => 'ItemSize { name: $name, price: $price, stock: $stock }';
 }
