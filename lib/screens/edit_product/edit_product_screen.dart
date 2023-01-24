@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/screens/edit_product/components/images_form.dart';
+import 'package:loja_virtual/screens/edit_product/components/sizes_form.dart';
 
 class EditProductScreen extends StatelessWidget {
   final Product product;
+  final bool editing;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  EditProductScreen({Key? key, required this.product}) : super(key: key);
+  EditProductScreen({Key? key, product})
+      : product = product?.clone() ?? Product.empty(),
+        editing = product != null,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Editar anúncio'),
+        title: Text(editing ? 'Editar produto' : 'Criar produto'),
         centerTitle: true,
       ),
       body: Form(
@@ -88,12 +93,25 @@ class EditProductScreen extends StatelessWidget {
                         return null;
                     },
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState != null &&
-                          _formKey.currentState!.validate()) print('válido');
-                    },
-                    child: const Text('Salvar'),
+                  SizesForm(product: product),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    height: 44,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        disabledBackgroundColor:
+                            Theme.of(context).primaryColor.withAlpha(100),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState != null &&
+                            _formKey.currentState!.validate()) print('válido');
+                      },
+                      child: const Text(
+                        'Salvar',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
                   ),
                 ],
               ),

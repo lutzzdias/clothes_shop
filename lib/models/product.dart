@@ -15,7 +15,8 @@ class Product extends ChangeNotifier {
     required this.name,
     required this.description,
     required this.images,
-  }) : sizes = [];
+    sizes,
+  }) : sizes = sizes ?? [];
 
   Product.fromDocument(DocumentSnapshot document)
       : id = document.id,
@@ -27,6 +28,13 @@ class Product extends ChangeNotifier {
               (size) => ItemSize.fromMap(size as Map<String, dynamic>),
             )
             .toList();
+
+  Product.empty()
+      : id = '',
+        name = '',
+        description = '',
+        images = [],
+        sizes = [];
 
   set selectedSize(ItemSize? size) {
     _selectedSize = size;
@@ -58,5 +66,15 @@ class Product extends ChangeNotifier {
     } catch (e) {
       return null;
     }
+  }
+
+  Product clone() {
+    return Product(
+      id: id,
+      name: name,
+      description: description,
+      images: List.from(images),
+      sizes: sizes.map((size) => size.clone()).toList(),
+    );
   }
 }

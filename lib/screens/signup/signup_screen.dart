@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final User user = User.late();
+  final User user = User.empty();
   SignUpScreen({Key? key}) : super(key: key);
 
   @override

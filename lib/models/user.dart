@@ -23,7 +23,7 @@ class User {
         email = document.get('email'),
         admin = false;
 
-  User.late({
+  User.empty({
     this.id = '',
     this.name = '',
     this.email = '',

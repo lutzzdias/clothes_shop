@@ -14,7 +14,14 @@ class ItemSize {
         price = map['price'] as num,
         stock = map['stock'] as int;
 
+  ItemSize.empty()
+      : name = '',
+        price = 0,
+        stock = 0;
+
   bool get hasStock => stock > 0;
+
+  ItemSize clone() => ItemSize(name: name, price: price, stock: stock);
 
   @override
   String toString() => 'ItemSize { name: $name, price: $price, stock: $stock }';
