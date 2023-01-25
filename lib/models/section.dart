@@ -63,10 +63,11 @@ class Section extends ChangeNotifier {
     return error == null;
   }
 
-  Future<void> save() async {
+  Future<void> save(int position) async {
     final Map<String, dynamic> data = {
       'name': name,
       'type': type,
+      'position': position,
     };
 
     if (id.isEmpty) {
@@ -102,6 +103,18 @@ class Section extends ChangeNotifier {
     };
 
     firestoreRef.update(itemsData);
+  }
+
+  Future<void> delete() async {
+    await firestoreRef.delete();
+    for (final item in items) {
+      try {
+        final ref = _storage.refFromURL(item.image as String);
+        await ref.delete();
+      } catch (e) {
+        debugPrint('falha ao deletar ${item.image}');
+      }
+    }
   }
 
   void addItem(SectionItem item) {

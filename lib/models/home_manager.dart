@@ -16,7 +16,7 @@ class HomeManager extends ChangeNotifier {
   bool get editing => _editing;
 
   Future<void> _loadSections() async {
-    _firestore.collection('home').snapshots().listen(
+    _firestore.collection('home').orderBy('position').snapshots().listen(
       (snapshot) {
         _sections.clear();
         for (final DocumentSnapshot doc in snapshot.docs) {
@@ -59,8 +59,17 @@ class HomeManager extends ChangeNotifier {
     loading = true;
     notifyListeners();
 
+    int position = 0;
     for (final Section section in _editingSections) {
-      await section.save();
+      await section.save(position);
+      position++;
+    }
+
+    for (final Section section in List.from(_sections)) {
+      if (!_editingSections
+          .any((originalSection) => originalSection.id == section.id)) {
+        await section.delete();
+      }
     }
 
     loading = false;
