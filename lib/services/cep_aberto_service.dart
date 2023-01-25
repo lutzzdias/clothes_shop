@@ -16,6 +16,7 @@ class CepAbertoService {
         'Token token=${await token}';
     try {
       final response = await dio.get<Map<String, dynamic>>(endpoint);
+
       if (response.data == null || response.data!.isEmpty)
         return Future.error('CEP Inválido');
 

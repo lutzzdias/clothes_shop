@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loja_virtual/models/address.dart';
 import 'package:loja_virtual/models/cart_product.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/user.dart';
@@ -9,6 +10,7 @@ import 'package:loja_virtual/services/cep_aberto_service.dart';
 class CartManager extends ChangeNotifier {
   List<CartProduct> items = [];
   User? user;
+  Address? address;
   num productsPrice = 0.0;
 
   bool get isCartValid {
@@ -82,8 +84,19 @@ class CartManager extends ChangeNotifier {
   void getAddress(String cep) async {
     final cepAbertoService = CepAbertoService();
     try {
-      final address = await cepAbertoService.getAddressFromCep(cep);
-      debugPrint(address.toString());
+      final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
+      address = Address(
+        street: cepAbertoAddress.logradouro,
+        number: null,
+        complement: null,
+        district: cepAbertoAddress.bairro,
+        zipCode: cepAbertoAddress.cep,
+        city: cepAbertoAddress.cidade.nome,
+        state: cepAbertoAddress.estado.sigla,
+        latitude: cepAbertoAddress.latitude,
+        longitude: cepAbertoAddress.longitude,
+      );
+      notifyListeners();
     } catch (e) {
       debugPrint(e.toString());
     }
