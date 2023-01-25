@@ -26,7 +26,7 @@ class HomeManager extends ChangeNotifier {
     );
   }
 
-  void addSection(Section section){
+  void addSection(Section section) {
     _editingSections.add(section);
     notifyListeners();
   }
@@ -44,7 +44,18 @@ class HomeManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveEditing() {
+  Future<void> saveEditing() async {
+    bool valid = true;
+    for (final Section section in _editingSections) {
+      if (!section.valid()) valid = false;
+    }
+
+    if (!valid) return;
+
+    for (final Section section in _editingSections) {
+      await section.save();
+    }
+
     _editing = false;
     notifyListeners();
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/home_manager.dart';
+import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/product_manager.dart';
 import 'package:loja_virtual/models/section.dart';
 import 'package:loja_virtual/models/section_item.dart';
@@ -31,25 +32,55 @@ class ItemTile extends StatelessWidget {
       onLongPress: homeManager.editing
           ? () {
               showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: const Text('Editar item'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        context.read<Section>().removeItem(item);
-                        Navigator.of(context).pop();
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.red,
-                      ),
-                      child: const Text(
-                        'Excluir',
-                      ),
-                    ),
-                  ],
-                ),
-              );
+                  context: context,
+                  builder: (_) {
+                    final product = context
+                        .read<ProductManager>()
+                        .findProductById(item.product);
+                    return AlertDialog(
+                      title: const Text('Editar item'),
+                      content: product != null
+                          ? ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Image.network(product.images.first),
+                              title: Text(product.name),
+                              subtitle: Text(
+                                'R\$ ${product.basePrice.toStringAsFixed(2)}',
+                              ),
+                            )
+                          : null,
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            context.read<Section>().removeItem(item);
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: const Text(
+                            'Excluir',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            if (product != null)
+                              item.product = null;
+                            else {
+                              final Product? product =
+                                  await Navigator.of(context)
+                                      .pushNamed('/select_product') as Product?;
+                              item.product = product?.id;
+                            }
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            product != null ? 'Desvincular' : 'Vincular',
+                          ),
+                        ),
+                      ],
+                    );
+                  });
             }
           : null,
       child: AspectRatio(

@@ -43,7 +43,7 @@ class ProductManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  Product? findProductById(String id) {
+  Product? findProductById(String? id) {
     try {
       return allProducts.firstWhere((product) => product.id == id);
     } catch (e) {

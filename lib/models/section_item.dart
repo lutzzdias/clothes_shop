@@ -16,6 +16,8 @@ class SectionItem {
         product: product,
       );
 
+  Map<String, dynamic> toMap() => {'image': image, 'product': product};
+
   @override
   String toString() {
     return 'SectionItem { image: $image, product: $product }';
