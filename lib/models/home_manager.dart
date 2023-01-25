@@ -7,6 +7,7 @@ class HomeManager extends ChangeNotifier {
   final List<Section> _sections = [];
   List<Section> _editingSections = [];
   bool _editing = false;
+  bool loading = false;
   HomeManager() {
     _loadSections();
   }
@@ -47,15 +48,22 @@ class HomeManager extends ChangeNotifier {
   Future<void> saveEditing() async {
     bool valid = true;
     for (final Section section in _editingSections) {
-      if (!section.valid()) valid = false;
+      if (!section.valid()) {
+        valid = false;
+        break;
+      }
     }
 
     if (!valid) return;
+
+    loading = true;
+    notifyListeners();
 
     for (final Section section in _editingSections) {
       await section.save();
     }
 
+    loading = false;
     _editing = false;
     notifyListeners();
   }
