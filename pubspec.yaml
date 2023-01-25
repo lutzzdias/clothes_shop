@@ -73,6 +73,9 @@ dependencies:
   # HTTP requests package in order to communicate with external apis
   dio: ^4.0.6
 
+  # Common brazillian formatting and patterns
+  brasil_fields: ^1.9.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
