@@ -4,6 +4,7 @@ import 'package:loja_virtual/models/cart_product.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/models/user_manager.dart';
+import 'package:loja_virtual/services/cep_aberto_service.dart';
 
 class CartManager extends ChangeNotifier {
   List<CartProduct> items = [];
@@ -75,5 +76,16 @@ class CartManager extends ChangeNotifier {
     productsPrice = 0;
     for (CartProduct cartProduct in items)
       productsPrice += cartProduct.totalPrice;
+  }
+
+  // ADDRESS
+  void getAddress(String cep) async {
+    final cepAbertoService = CepAbertoService();
+    try {
+      final address = await cepAbertoService.getAddressFromCep(cep);
+      debugPrint(address.toString());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

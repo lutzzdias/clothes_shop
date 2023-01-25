@@ -8,11 +8,11 @@ class AddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Entrega'),
+        title: const Text('Entrega'),
         centerTitle: true,
       ),
       body: ListView(
-        children: [
+        children: const [
           AddressCard(),
         ],
       ),

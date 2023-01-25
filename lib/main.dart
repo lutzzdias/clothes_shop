@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
               );
             case '/address':
               return MaterialPageRoute(
-                builder: (_) => AddressScreen(),
+                builder: (_) => const AddressScreen(),
               );
             case '/edit_product':
               return MaterialPageRoute(
