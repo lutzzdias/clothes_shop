@@ -70,6 +70,9 @@ dependencies:
   # ID generator in order to create unique names for images in storage
   uuid: ^3.0.7
 
+  # HTTP requests package in order to communicate with external apis
+  dio: ^4.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
