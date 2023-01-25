@@ -2,16 +2,18 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
-const token = '887bc7802a93d23b124847f56783e8c5';
+import 'package:loja_virtual/helpers/env.dart';
 
 class CepAbertoService {
   final Dio dio = Dio();
+
+  get token async => await Env.cepAbertoToken;
+
   Future<void> getAddressFromCep(String cep) async {
     final cleanCep = cep.replaceAll('.', '').replaceAll('-', '');
     final endpoint = 'https://www.cepaberto.com/api/v3/cep?cep=$cleanCep';
-    dio.options.headers[HttpHeaders.authorizationHeader] = 'Token token=$token';
-
+    dio.options.headers[HttpHeaders.authorizationHeader] =
+        'Token token=${await token}';
     try {
       final response = await dio.get<Map>(endpoint);
       if (response.data?.isEmpty ?? true) return Future.error('CEP Inválido');
