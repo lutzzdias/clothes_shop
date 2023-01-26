@@ -21,4 +21,16 @@ class Address {
     required this.latitude,
     required this.longitude,
   });
+
+  Address.empty({
+    this.street = '',
+    this.number = '',
+    this.complement = '',
+    this.district = '',
+    this.zipCode = '',
+    this.city = '',
+    this.state = '',
+    this.latitude = 0,
+    this.longitude = 0,
+  });
 }

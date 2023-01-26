@@ -52,14 +52,11 @@ dependencies:
   # Staggered gridview for the home screen
   flutter_staggered_grid_view: ^0.6.2
 
-  # Transparent image to load the images for the home screren in a better way
+  # Transparent image to load the images for the home screen in a better way
   transparent_image: ^2.0.0
 
   # A-z Scroll for admin screen users
   alphabet_list_scroll_view: ^2.0.0
-
-  # Fake data generator
-  faker: ^2.1.0
 
   # Image picker to pick image from gallery
   image_picker: ^0.8.6+1
@@ -73,7 +70,7 @@ dependencies:
   # HTTP requests package in order to communicate with external apis
   dio: ^4.0.6
 
-  # Common brazillian formatting and patterns
+  # Common brazilian formatting and patterns
   brasil_fields: ^1.9.1
 
 dev_dependencies:
