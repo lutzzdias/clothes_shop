@@ -73,6 +73,9 @@ dependencies:
   # Common brazilian formatting and patterns
   brasil_fields: ^1.9.1
 
+  # Geolocator to get the location of the device and calculate the delivery tax
+  geolocator: ^9.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
