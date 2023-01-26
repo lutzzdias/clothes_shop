@@ -36,14 +36,17 @@ class CartManager extends ChangeNotifier {
 
   void updateUser(UserManager userManager) {
     user = userManager.user;
+    productsPrice = 0;
     items.clear();
+    removeAddress();
 
     if (user != null) {
       _loadCartItems();
+      _loadUserAddress();
     }
   }
 
-  _loadCartItems() async {
+  Future<void> _loadCartItems() async {
     final QuerySnapshot? cartSnap = await user?.cartRef.get();
     items = cartSnap?.docs.map((doc) {
           final item = CartProduct.fromDocument(doc);
@@ -51,6 +54,17 @@ class CartManager extends ChangeNotifier {
           return item;
         }).toList() ??
         [];
+  }
+
+  Future<void> _loadUserAddress() async {
+    if (user!.address != null &&
+        await _calculateDelivery(
+          lat: user!.address!.latitude,
+          long: user!.address!.longitude,
+        )) {
+      address = user!.address;
+      notifyListeners();
+    }
   }
 
   void addToCart(Product product) {
@@ -126,6 +140,7 @@ class CartManager extends ChangeNotifier {
       lat: address.latitude,
       long: address.longitude,
     )) {
+      user!.setAddress(address);
       loading = false;
     } else {
       loading = false;
