@@ -16,12 +16,14 @@ class CepInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String cep = '';
+    final cartManager = context.watch<CartManager>();
+    String cep = address.zipCode;
     return address.zipCode.isEmpty
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                enabled: !cartManager.loading,
                 decoration: const InputDecoration(
                   isDense: true,
                   labelText: 'CEP',
@@ -42,12 +44,29 @@ class CepInputField extends StatelessWidget {
                 },
                 onChanged: (text) => cep = text,
               ),
+              if (cartManager.loading)
+                LinearProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                  backgroundColor: Colors.transparent,
+                ),
               ElevatedButton(
-                onPressed: () {
-                  if (Form.of(context).validate()) {
-                    context.read<CartManager>().getAddress(cep);
-                  }
-                },
+                onPressed: !cartManager.loading
+                    ? () async {
+                        if (Form.of(context).validate()) {
+                          try {
+                            await context.read<CartManager>().getAddress(cep);
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.toString()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        }
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   disabledBackgroundColor:

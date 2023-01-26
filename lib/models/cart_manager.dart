@@ -12,7 +12,9 @@ class CartManager extends ChangeNotifier {
   List<CartProduct> items = [];
   User? user;
   Address? address;
+  num? deliveryPrice;
   num productsPrice = 0.0;
+  bool _loading = false;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -20,6 +22,16 @@ class CartManager extends ChangeNotifier {
     for (final CartProduct cartProduct in items)
       if (!cartProduct.hasStock) return false;
     return true;
+  }
+
+  bool get isAddressValid => address != null && deliveryPrice != null;
+
+  num get totalPrice => productsPrice + (deliveryPrice ?? 0);
+
+  bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
   }
 
   void updateUser(UserManager userManager) {
@@ -84,7 +96,8 @@ class CartManager extends ChangeNotifier {
   }
 
   // ADDRESS
-  void getAddress(String cep) async {
+  Future<void> getAddress(String cep) async {
+    loading = true;
     final cepAbertoService = CepAbertoService();
     try {
       final cepAbertoAddress = await cepAbertoService.getAddressFromCep(cep);
@@ -99,25 +112,30 @@ class CartManager extends ChangeNotifier {
         latitude: cepAbertoAddress.latitude,
         longitude: cepAbertoAddress.longitude,
       );
-      notifyListeners();
+      loading = false;
     } catch (e) {
-      debugPrint(e.toString());
+      loading = false;
+      return Future.error('CEP Inválido');
     }
   }
 
   Future<void> setAddress(Address address) async {
+    loading = true;
     this.address = address;
     if (await _calculateDelivery(
       lat: address.latitude,
       long: address.longitude,
     )) {
+      loading = false;
     } else {
+      loading = false;
       return Future.error('Endereço fora do raio de entrega');
     }
   }
 
   void removeAddress() {
     address = null;
+    deliveryPrice = null;
     notifyListeners();
   }
 
@@ -139,7 +157,7 @@ class CartManager extends ChangeNotifier {
 
     if (distance > maxKm) return false;
 
-    final deliveryPrice = base + distance * km;
+    deliveryPrice = base + distance * km;
     return true;
   }
 }
