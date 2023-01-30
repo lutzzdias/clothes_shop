@@ -75,4 +75,10 @@ class CartProduct extends ChangeNotifier {
         'quantity': quantity,
         'size': size,
       };
+
+  Map<String, dynamic> toOrderItemMap() => <String, dynamic>{
+        'productId': productId,
+        'quantity': quantity,
+        'size': size,
+      };
 }
