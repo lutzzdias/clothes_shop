@@ -20,25 +20,49 @@ class CheckoutScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: Consumer<CheckoutManager>(
-          builder: (_, checkoutManager, __) => ListView(
-            children: [
-              PriceCard(
-                buttonText: 'Finalizar pedido',
-                onPressed: () {
-                  checkoutManager.checkout(onStockFail: (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(e.toString()),
-                        backgroundColor: Colors.red,
+          builder: (_, checkoutManager, __) => checkoutManager.loading
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
                       ),
-                    );
-                    Navigator.of(context)
-                        .popUntil((route) => route.settings.name == '/cart');
-                  });
-                },
-              ),
-            ],
-          ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Processando seu pagamento...',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : ListView(
+                  children: [
+                    PriceCard(
+                      buttonText: 'Finalizar pedido',
+                      onPressed: () async {
+                        await checkoutManager.checkout(
+                          onStockFail: (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.toString()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                            Navigator.of(context).popUntil(
+                                (route) => route.settings.name == '/cart');
+                          },
+                          onSuccess: () => Navigator.of(context).popUntil(
+                              (route) => route.settings.name == '/base'),
+                        );
+                      },
+                    ),
+                  ],
+                ),
         ),
       ),
     );

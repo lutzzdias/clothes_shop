@@ -6,18 +6,29 @@ import 'package:loja_virtual/models/product.dart';
 
 class CheckoutManager extends ChangeNotifier {
   late CartManager cartManager;
+  bool _loading = false;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  bool get loading => _loading;
+  set loading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+
   void updateCart(CartManager cartManager) {
     this.cartManager = cartManager;
     print(cartManager.productsPrice);
   }
 
-  Future<void> checkout({required Function onStockFail}) async {
+  Future<void> checkout(
+      {required Function onStockFail, required Function onSuccess}) async {
+    loading = true;
     try {
       await _decrementStock();
     } catch (e) {
       onStockFail(e);
+      loading = false;
       return;
     }
 
@@ -26,6 +37,10 @@ class CheckoutManager extends ChangeNotifier {
     final orderId = await _getOrderId();
     final order = model.Order.fromCartManager(cartManager, orderId.toString());
     order.save();
+
+    cartManager.clear();
+    onSuccess();
+    loading = false;
   }
 
   Future<void> _decrementStock() {
