@@ -10,12 +10,12 @@ class CartProduct extends ChangeNotifier {
   int quantity;
   String size;
 
-  Product? product;
-  CartProduct.fromProduct(this.product)
+  Product? _product;
+  CartProduct.fromProduct(this._product)
       : id = '',
-        productId = product!.id,
+        productId = _product!.id,
         quantity = 1,
-        size = product.selectedSize!.name;
+        size = _product.selectedSize!.name;
 
   CartProduct.fromDocument(DocumentSnapshot document)
       : id = document.id,
@@ -24,8 +24,13 @@ class CartProduct extends ChangeNotifier {
         size = document.get('size') as String {
     _firestore.doc('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
-      notifyListeners();
     });
+  }
+
+  Product? get product => _product;
+  set product(Product? value) {
+    _product = value;
+    notifyListeners();
   }
 
   ItemSize? get itemSize {
