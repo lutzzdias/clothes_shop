@@ -9,6 +9,7 @@ class CartProduct extends ChangeNotifier {
   String productId;
   int quantity;
   String size;
+  num? fixedPrice;
 
   Product? _product;
   CartProduct.fromProduct(this._product)
@@ -80,5 +81,6 @@ class CartProduct extends ChangeNotifier {
         'productId': productId,
         'quantity': quantity,
         'size': size,
+        'fixedPrice': fixedPrice ?? unitPrice,
       };
 }
