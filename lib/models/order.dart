@@ -65,6 +65,9 @@ class Order {
         : null;
   }
 
+  void updateStatusFromDocument(DocumentSnapshot doc) =>
+      status = Status.values[doc.get('status')];
+
   static String getStatusText(Status status) {
     switch (status) {
       case Status.canceled:

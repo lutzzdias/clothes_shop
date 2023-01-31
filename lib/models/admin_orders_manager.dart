@@ -23,8 +23,21 @@ class AdminOrdersManager extends ChangeNotifier {
 
   void _listenToOrders() {
     _subscription = _firestore.collection('orders').snapshots().listen((event) {
-      orders.clear();
-      for (final doc in event.docs) orders.add(model.Order.fromDocument(doc));
+      for (final change in event.docChanges) {
+        switch (change.type) {
+          case DocumentChangeType.added:
+            orders.add(model.Order.fromDocument(change.doc));
+            break;
+          case DocumentChangeType.modified:
+            final modOrder =
+                orders.firstWhere((order) => order.orderId == change.doc.id);
+            modOrder.updateStatusFromDocument(change.doc);
+            break;
+          case DocumentChangeType.removed:
+            debugPrint('Doc removido que não deveria ser removido nunca');
+            break;
+        }
+      }
       notifyListeners();
     });
   }
