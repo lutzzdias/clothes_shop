@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/order.dart' as model;
@@ -9,16 +11,20 @@ class OrdersManager extends ChangeNotifier {
   User? user;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  StreamSubscription? _subscription;
 
   void updateUser(UserManager userManager) {
     user = userManager.user;
+    orders.clear();
+
+    _subscription?.cancel();
     if (user != null) {
       _listenToOrders();
     }
   }
 
   void _listenToOrders() {
-    _firestore
+    _subscription = _firestore
         .collection('orders')
         .where('user', isEqualTo: user!.id)
         .snapshots()
@@ -27,5 +33,11 @@ class OrdersManager extends ChangeNotifier {
       for (final doc in event.docs) orders.add(model.Order.fromDocument(doc));
       print(orders);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _subscription?.cancel();
   }
 }
