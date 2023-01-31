@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/admin_users_manager.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/home_manager.dart';
+import 'package:loja_virtual/models/order.dart';
 import 'package:loja_virtual/models/orders_manager.dart';
 import 'package:loja_virtual/models/product.dart';
 import 'package:loja_virtual/models/product_manager.dart';
@@ -11,6 +12,7 @@ import 'package:loja_virtual/screens/address/address_screen.dart';
 import 'package:loja_virtual/screens/base/base_screen.dart';
 import 'package:loja_virtual/screens/cart/cart_screen.dart';
 import 'package:loja_virtual/screens/checkout/checkout_screen.dart';
+import 'package:loja_virtual/screens/confirmation/confirmation_screen.dart';
 import 'package:loja_virtual/screens/edit_product/edit_product_screen.dart';
 import 'package:loja_virtual/screens/login/login_screen.dart';
 import 'package:loja_virtual/screens/product/product_screen.dart';
@@ -111,6 +113,11 @@ class MyApp extends StatelessWidget {
             case '/checkout':
               return MaterialPageRoute(
                 builder: (_) => const CheckoutScreen(),
+              );
+            case '/confirmation':
+              return MaterialPageRoute(
+                builder: (_) =>
+                    ConfirmationScreen(order: settings.arguments as Order),
               );
             default:
               return MaterialPageRoute(builder: (_) => BaseScreen());
