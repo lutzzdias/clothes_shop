@@ -3,6 +3,13 @@ import 'package:loja_virtual/models/address.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/cart_product.dart';
 
+enum Status {
+  canceled,
+  preparing,
+  transporting,
+  delivered,
+}
+
 class Order {
   String orderId;
   List<CartProduct> items;
@@ -10,6 +17,7 @@ class Order {
   String userId;
   Address address;
   Timestamp? date;
+  Status status;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -17,7 +25,8 @@ class Order {
       : items = List.from(cartManager.items),
         price = cartManager.totalPrice,
         userId = cartManager.user!.id,
-        address = cartManager.address!;
+        address = cartManager.address!,
+        status = Status.preparing;
 
   Order.fromDocument(DocumentSnapshot doc)
       : orderId = doc.id,
@@ -27,9 +36,27 @@ class Order {
         price = doc.get('price') as num,
         userId = doc.get('user') as String,
         address = Address.fromMap(doc.get('address') as Map<String, dynamic>),
-        date = null; //doc.get('date') as Timestamp;
+        date = doc.get('date') as Timestamp,
+        status = Status.values[doc.get('status')];
 
   String get formattedId => '#${orderId.padLeft(5, '0')}';
+
+  String get statusText => getStatusText(status);
+
+  static String getStatusText(Status status) {
+    switch (status) {
+      case Status.canceled:
+        return 'Cancelado';
+      case Status.preparing:
+        return 'Em preparo';
+      case Status.transporting:
+        return 'Em transporte';
+      case Status.delivered:
+        return 'Entregue';
+      default:
+        return 'Erro';
+    }
+  }
 
   Future<void> save() async {
     _firestore.collection('orders').doc(orderId).set({
@@ -37,6 +64,8 @@ class Order {
       'price': price,
       'user': userId,
       'address': address.toMap(),
+      'date': Timestamp.now(),
+      'status': status.index,
     });
   }
 
