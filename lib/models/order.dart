@@ -39,6 +39,9 @@ class Order {
         date = doc.get('date') as Timestamp,
         status = Status.values[doc.get('status')];
 
+  DocumentReference get _firestoreRef =>
+      _firestore.collection('orders').doc(orderId);
+
   String get formattedId => '#${orderId.padLeft(5, '0')}';
 
   String get statusText => getStatusText(status);
@@ -47,9 +50,7 @@ class Order {
     return status.index >= Status.transporting.index
         ? () {
             status = Status.values[status.index - 1];
-            _firestore.collection('orders').doc(orderId).update(
-              {'status': status.index},
-            );
+            _firestoreRef.update({'status': status.index});
           }
         : null;
   }
@@ -58,11 +59,14 @@ class Order {
     return status.index <= Status.transporting.index
         ? () {
             status = Status.values[status.index + 1];
-            _firestore.collection('orders').doc(orderId).update(
-              {'status': status.index},
-            );
+            _firestoreRef.update({'status': status.index});
           }
         : null;
+  }
+
+  void cancel() {
+    status = Status.canceled;
+    _firestoreRef.update({'status': status.index});
   }
 
   void updateStatusFromDocument(DocumentSnapshot doc) =>
@@ -84,7 +88,7 @@ class Order {
   }
 
   Future<void> save() async {
-    _firestore.collection('orders').doc(orderId).set({
+    _firestoreRef.set({
       'items': items.map((item) => item.toOrderItemMap()).toList(),
       'price': price,
       'user': userId,

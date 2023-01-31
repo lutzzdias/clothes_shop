@@ -64,7 +64,7 @@ class OrderTile extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: order.cancel,
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.red,
                     ),
