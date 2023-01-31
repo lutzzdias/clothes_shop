@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/common/order/order_product_tile.dart';
 import 'package:loja_virtual/models/order.dart';
-import 'package:loja_virtual/screens/orders/components/order_product_tile.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;
+  final bool showControls;
   const OrderTile({
     Key? key,
     required this.order,
+    this.showControls = false,
   }) : super(key: key);
 
   @override
@@ -55,6 +57,36 @@ class OrderTile extends StatelessWidget {
                 .map((item) => OrderProductTile(cartProduct: item))
                 .toList(),
           ),
+          if (showControls && order.status != Status.canceled)
+            SizedBox(
+              height: 50,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.red,
+                    ),
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: order.back,
+                    child: const Text('Recuar'),
+                  ),
+                  TextButton(
+                    onPressed: order.advance,
+                    child: const Text('Avançar'),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        foregroundColor: Theme.of(context).primaryColor),
+                    child: const Text('Endereço'),
+                  ),
+                ],
+              ),
+            )
         ],
       ),
     );

@@ -43,6 +43,28 @@ class Order {
 
   String get statusText => getStatusText(status);
 
+  Function()? get back {
+    return status.index >= Status.transporting.index
+        ? () {
+            status = Status.values[status.index - 1];
+            _firestore.collection('orders').doc(orderId).update(
+              {'status': status.index},
+            );
+          }
+        : null;
+  }
+
+  Function()? get advance {
+    return status.index <= Status.transporting.index
+        ? () {
+            status = Status.values[status.index + 1];
+            _firestore.collection('orders').doc(orderId).update(
+              {'status': status.index},
+            );
+          }
+        : null;
+  }
+
   static String getStatusText(Status status) {
     switch (status) {
       case Status.canceled:
