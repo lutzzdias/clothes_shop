@@ -31,7 +31,7 @@ class OrdersManager extends ChangeNotifier {
         .listen((event) {
       orders.clear();
       for (final doc in event.docs) orders.add(model.Order.fromDocument(doc));
-      print(orders);
+      notifyListeners();
     });
   }
 

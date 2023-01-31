@@ -29,6 +29,8 @@ class Order {
         address = Address.fromMap(doc.get('address') as Map<String, dynamic>),
         date = null; //doc.get('date') as Timestamp;
 
+  String get formattedId => '#${orderId.padLeft(5, '0')}';
+
   Future<void> save() async {
     _firestore.collection('orders').doc(orderId).set({
       'items': items.map((item) => item.toOrderItemMap()).toList(),

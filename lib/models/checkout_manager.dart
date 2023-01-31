@@ -18,7 +18,6 @@ class CheckoutManager extends ChangeNotifier {
 
   void updateCart(CartManager cartManager) {
     this.cartManager = cartManager;
-    print(cartManager.productsPrice);
   }
 
   Future<void> checkout(
