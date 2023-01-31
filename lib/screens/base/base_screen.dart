@@ -23,7 +23,7 @@ class BaseScreen extends StatelessWidget {
           children: [
             const HomeScreen(),
             const ProductsScreen(),
-            OrdersScreen(),
+            const OrdersScreen(),
             Scaffold(
               drawer: const CustomDrawer(),
               appBar: AppBar(

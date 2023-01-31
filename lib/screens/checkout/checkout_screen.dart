@@ -45,20 +45,19 @@ class CheckoutScreen extends StatelessWidget {
                     PriceCard(
                       buttonText: 'Finalizar pedido',
                       onPressed: () async {
-                        await checkoutManager.checkout(
-                          onStockFail: (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(e.toString()),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                            Navigator.of(context).popUntil(
-                                (route) => route.settings.name == '/cart');
-                          },
-                          onSuccess: () => Navigator.of(context).popUntil(
-                              (route) => route.settings.name == '/base'),
-                        );
+                        await checkoutManager.checkout(onStockFail: (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          Navigator.of(context).popUntil(
+                              (route) => route.settings.name == '/cart');
+                        }, onSuccess: () {
+                          Navigator.of(context).popUntil(
+                              (route) => route.settings.name == '/base');
+                        });
                       },
                     ),
                   ],

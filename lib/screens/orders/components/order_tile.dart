@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/order.dart';
+import 'package:loja_virtual/screens/orders/components/order_product_tile.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;
@@ -11,7 +12,7 @@ class OrderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ExpansionTile(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,7 +29,7 @@ class OrderTile extends StatelessWidget {
                 ),
                 Text(
                   'R\$ ${order.price.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                     fontSize: 14,
@@ -46,6 +47,9 @@ class OrderTile extends StatelessWidget {
             ),
           ],
         ),
+        children: order.items
+            .map((item) => OrderProductTile(cartProduct: item))
+            .toList(),
       ),
     );
   }
