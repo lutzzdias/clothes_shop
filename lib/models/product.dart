@@ -67,7 +67,7 @@ class Product extends ChangeNotifier {
     return stock;
   }
 
-  bool get hasStock => totalStock > 0;
+  bool get hasStock => totalStock > 0 && !deleted;
 
   num get basePrice {
     num lowest = double.infinity;
