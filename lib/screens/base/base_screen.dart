@@ -33,7 +33,7 @@ class BaseScreen extends StatelessWidget {
             ),
             if (userManager.isAdmin) ...[
               const AdminUsersScreen(),
-              const AdminOrdersScreen(),
+              AdminOrdersScreen(),
             ],
           ],
         ),

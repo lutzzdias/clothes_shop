@@ -76,6 +76,9 @@ dependencies:
   # Geolocator to get the location of the device and calculate the delivery tax
   geolocator: ^9.0.2
 
+  # Panel that slides up and will be used in the all orders for the filtering
+  sliding_up_panel: ^2.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
