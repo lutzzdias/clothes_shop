@@ -79,6 +79,12 @@ dependencies:
   # Panel that slides up and will be used in the all orders for the filtering
   sliding_up_panel: ^2.0.0+1
 
+  # Package that allows to save any widget as an image (literaly screenshot)
+  screenshot: ^1.3.0
+
+  # Package that makes possible to save pictures to the gallery (in this case, screenshots)
+  gallery_saver: ^2.3.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
