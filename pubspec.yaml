@@ -85,6 +85,9 @@ dependencies:
   # Package that makes possible to save pictures to the gallery (in this case, screenshots)
   image_gallery_saver: ^1.7.1
 
+  # Already created and styled signin button for multiple platforms
+  flutter_signin_button: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

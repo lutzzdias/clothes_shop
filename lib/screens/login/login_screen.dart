@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:loja_virtual/helpers/validators.dart';
 import 'package:loja_virtual/models/user.dart';
 import 'package:loja_virtual/models/user_manager.dart';
@@ -79,45 +81,47 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      onPressed: userManager.loading
-                          ? null
-                          : () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                userManager.signIn(
-                                  user: User(
-                                    email: emailController.text,
-                                    password: passwordController.text,
+                  ElevatedButton(
+                    onPressed: userManager.loading
+                        ? null
+                        : () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              userManager.signIn(
+                                user: User(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                                onFail: (error) =>
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Falha ao entrar: $error'),
+                                    backgroundColor: Colors.red,
                                   ),
-                                  onFail: (error) =>
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                    SnackBar(
-                                      content: Text('Falha ao entrar: $error'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  ),
-                                  onSuccess: () => Navigator.of(context).pop(),
-                                );
-                              }
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        disabledBackgroundColor:
-                            Theme.of(context).primaryColor.withAlpha(100),
-                      ),
-                      child: userManager.loading
-                          ? const CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation(Colors.white),
-                            )
-                          : const Text(
-                              'Entrar',
-                              style: TextStyle(fontSize: 18),
-                            ),
+                                ),
+                                onSuccess: () => Navigator.of(context).pop(),
+                              );
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      disabledBackgroundColor:
+                          Theme.of(context).primaryColor.withAlpha(100),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
+                    child: userManager.loading
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          )
+                        : const Text(
+                            'Entrar',
+                            style: TextStyle(fontSize: 15),
+                          ),
                   ),
+                  SignInButton(
+                    Buttons.Facebook,
+                    text: 'Entrar com Facebook',
+                    onPressed: () => UnimplementedError('Not implemented'),
+                  )
                 ],
               );
             }),
