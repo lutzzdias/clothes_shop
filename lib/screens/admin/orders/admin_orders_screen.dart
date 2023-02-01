@@ -32,13 +32,13 @@ class AdminOrdersScreen extends StatelessWidget {
               children: [
                 ordersManager.user != null
                     ? Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 2),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 2),
                         child: Row(
                           children: [
                             Expanded(
                               child: Text(
                                 'Pedidos de ${ordersManager.user!.name}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
                                 ),
@@ -53,8 +53,8 @@ class AdminOrdersScreen extends StatelessWidget {
                         ),
                       )
                     : filteredOrders.isEmpty
-                        ? Expanded(
-                            child: const EmptyCard(
+                        ? const Expanded(
+                            child: EmptyCard(
                                 title: 'Nenhuma venda realizada',
                                 iconData: Icons.border_clear),
                           )
@@ -67,6 +67,7 @@ class AdminOrdersScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                const SizedBox(height: 120)
               ],
             ),
             panel: Column(
@@ -96,10 +97,16 @@ class AdminOrdersScreen extends StatelessWidget {
                     children: Status.values
                         .map(
                           (status) => CheckboxListTile(
-                            value: false,
+                            value: ordersManager.statusFilter.contains(status),
                             dense: true,
+                            activeColor: Theme.of(context).primaryColor,
                             title: Text(Order.getStatusText(status)),
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              ordersManager.setStatusFilter(
+                                status: status,
+                                enabled: value!,
+                              );
+                            },
                           ),
                         )
                         .toList(),
