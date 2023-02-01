@@ -6,14 +6,26 @@ import 'package:loja_virtual/models/order.dart' as model;
 import 'package:loja_virtual/models/user.dart';
 
 class AdminOrdersManager extends ChangeNotifier {
-  List<model.Order> orders = [];
+  final List<model.Order> _orders = [];
   User? user;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   StreamSubscription? _subscription;
 
+  List<model.Order> get filteredOrders {
+    List<model.Order> output = _orders.reversed.toList();
+    return user != null
+        ? output.where((order) => order.userId == user!.id).toList()
+        : output;
+  }
+
+  void setUserFilter(User? user) {
+    this.user = user;
+    notifyListeners();
+  }
+
   void updateAdmin(bool isAdmin) {
-    orders.clear();
+    _orders.clear();
 
     _subscription?.cancel();
     if (isAdmin) {
@@ -26,11 +38,11 @@ class AdminOrdersManager extends ChangeNotifier {
       for (final change in event.docChanges) {
         switch (change.type) {
           case DocumentChangeType.added:
-            orders.add(model.Order.fromDocument(change.doc));
+            _orders.add(model.Order.fromDocument(change.doc));
             break;
           case DocumentChangeType.modified:
             final modOrder =
-                orders.firstWhere((order) => order.orderId == change.doc.id);
+                _orders.firstWhere((order) => order.orderId == change.doc.id);
             modOrder.updateStatusFromDocument(change.doc);
             break;
           case DocumentChangeType.removed:
