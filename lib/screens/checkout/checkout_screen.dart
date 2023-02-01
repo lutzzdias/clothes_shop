@@ -55,8 +55,8 @@ class CheckoutScreen extends StatelessWidget {
                           Navigator.of(context).popUntil(
                               (route) => route.settings.name == '/cart');
                         }, onSuccess: (order) {
-                          Navigator.of(context).popUntil(
-                              (route) => route.settings.name == '/base');
+                          Navigator.of(context)
+                              .popUntil((route) => route.settings.name == '/');
                           Navigator.of(context)
                               .pushNamed('/confirmation', arguments: order);
                         });

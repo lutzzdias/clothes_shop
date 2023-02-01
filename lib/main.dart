@@ -84,10 +84,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color.fromARGB(255, 4, 125, 141),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/base',
         onGenerateRoute: (settings) {
           switch (settings.name) {
-            case '/base':
+            case '/':
               return MaterialPageRoute(
                   builder: (_) => BaseScreen(), settings: settings);
             case '/signup':
