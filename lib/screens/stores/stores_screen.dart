@@ -9,9 +9,9 @@ class StoresScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       appBar: AppBar(
-        title: Text('Lojas'),
+        title: const Text('Lojas'),
         centerTitle: true,
       ),
       body: Consumer<StoresManager>(

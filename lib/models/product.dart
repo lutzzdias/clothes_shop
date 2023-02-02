@@ -30,8 +30,8 @@ class Product extends ChangeNotifier {
 
   Product.fromDocument(DocumentSnapshot document)
       : id = document.id,
-        name = document.get('name'),
-        description = document.get('description'),
+        name = document.get('name') as String,
+        description = document.get('description') as String,
         images = List<String>.from(document.get('images') as List<dynamic>),
         sizes = (document.get('sizes') as List<dynamic>)
             .map(
