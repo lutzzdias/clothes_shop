@@ -80,53 +80,48 @@ class SignUpScreen extends StatelessWidget {
                     onSaved: (password) => user.confirmPassword = password!,
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    height: 44,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                         disabledBackgroundColor:
                             Theme.of(context).primaryColor.withAlpha(100),
-                      ),
-                      onPressed: userManager.loading
-                          ? null
-                          : () {
-                              if (formKey.currentState?.validate() ?? false) {
-                                formKey.currentState?.save();
-                                if (user.password != user.confirmPassword) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Senhas não coincidem!'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                userManager.signUp(
-                                  user: user,
-                                  onSuccess: () => Navigator.of(context).pop(),
-                                  onFail: (error) =>
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                    SnackBar(
-                                      content:
-                                          Text('Falha ao cadastrar: $error'),
-                                      backgroundColor: Colors.red,
-                                    ),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+                    onPressed: userManager.loading
+                        ? null
+                        : () {
+                            if (formKey.currentState?.validate() ?? false) {
+                              formKey.currentState?.save();
+                              if (user.password != user.confirmPassword) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Senhas não coincidem!'),
+                                    backgroundColor: Colors.red,
                                   ),
                                 );
+                                return;
                               }
-                            },
-                      child: userManager.loading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text(
-                              'Criar conta',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                    ),
+
+                              userManager.signUp(
+                                user: user,
+                                onSuccess: () => Navigator.of(context).pop(),
+                                onFail: (error) =>
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Falha ao cadastrar: $error'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                    child: userManager.loading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            'Criar conta',
+                            style: TextStyle(fontSize: 15),
+                          ),
                   ),
                 ],
               ),

@@ -9,13 +9,14 @@ class CartProduct extends ChangeNotifier {
   String productId;
   int quantity;
   String size;
+  num? fixedPrice;
 
-  Product? product;
-  CartProduct.fromProduct(this.product)
+  Product? _product;
+  CartProduct.fromProduct(this._product)
       : id = '',
-        productId = product!.id,
+        productId = _product!.id,
         quantity = 1,
-        size = product.selectedSize!.name;
+        size = _product.selectedSize!.name;
 
   CartProduct.fromDocument(DocumentSnapshot document)
       : id = document.id,
@@ -24,8 +25,24 @@ class CartProduct extends ChangeNotifier {
         size = document.get('size') as String {
     _firestore.doc('products/$productId').get().then((doc) {
       product = Product.fromDocument(doc);
-      notifyListeners();
     });
+  }
+
+  CartProduct.fromMap(Map<String, dynamic> map)
+      : id = '',
+        productId = map['productId'] as String,
+        quantity = map['quantity'] as int,
+        size = map['size'] as String,
+        fixedPrice = map['fixedPrice'] as num {
+    _firestore.doc('products/$productId').get().then((doc) {
+      product = Product.fromDocument(doc);
+    });
+  }
+
+  Product? get product => _product;
+  set product(Product? value) {
+    _product = value;
+    notifyListeners();
   }
 
   ItemSize? get itemSize {
@@ -48,6 +65,8 @@ class CartProduct extends ChangeNotifier {
       product.id == productId && product.selectedSize!.name == size;
 
   bool get hasStock {
+    if (product != null && product!.deleted) return false;
+
     final size = itemSize;
     if (size == null)
       return false;
@@ -69,5 +88,12 @@ class CartProduct extends ChangeNotifier {
         'productId': productId,
         'quantity': quantity,
         'size': size,
+      };
+
+  Map<String, dynamic> toOrderItemMap() => <String, dynamic>{
+        'productId': productId,
+        'quantity': quantity,
+        'size': size,
+        'fixedPrice': fixedPrice ?? unitPrice,
       };
 }

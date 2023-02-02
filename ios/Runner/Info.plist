@@ -47,5 +47,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Acessar galeria para adicionar imagem</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Acessar galeria para adicionar imagem</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Acessar câmera para adicionar imagem</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Acessar câmera para adicionar imagem</string>
 </dict>
 </plist>

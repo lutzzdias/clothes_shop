@@ -20,7 +20,11 @@ class AddressScreen extends StatelessWidget {
           Consumer<CartManager>(
             builder: (_, cartManager, __) => PriceCard(
               buttonText: 'Continuar para o pagamento',
-              onPressed: cartManager.isAddressValid ? () {} : null,
+              onPressed: cartManager.isAddressValid
+                  ? () {
+                      Navigator.of(context).pushNamed('/checkout');
+                    }
+                  : null,
             ),
           )
         ],
