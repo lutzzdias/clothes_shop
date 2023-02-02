@@ -88,6 +88,15 @@ dependencies:
   # Already created and styled signin button for multiple platforms
   flutter_signin_button: ^2.0.0
 
+  # url_launcher in order to open the telephone app in the device
+  url_launcher: ^6.1.8
+
+  # map launcher to let user choose which map to open when clicking the map icon in the store card
+  map_launcher: ^2.4.0
+
+  # used to render the map icons, which are themselves svgs
+  flutter_svg: ^1.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

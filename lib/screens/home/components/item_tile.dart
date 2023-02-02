@@ -64,6 +64,7 @@ class ItemTile extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () async {
+                            final navigator = Navigator.of(context);
                             if (product != null)
                               item.product = null;
                             else {
@@ -72,7 +73,7 @@ class ItemTile extends StatelessWidget {
                                       .pushNamed('/select_product') as Product?;
                               item.product = product?.id;
                             }
-                            Navigator.of(context).pop();
+                            navigator.pop();
                           },
                           child: Text(
                             product != null ? 'Desvincular' : 'Vincular',
