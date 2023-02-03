@@ -106,6 +106,9 @@ dependencies:
   # used to detect what is the flag of the entered credit card number
   credit_card_type_detector: ^2.0.0
 
+  # used to show a bar above the keyboard in iOS
+  keyboard_actions: ^4.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
