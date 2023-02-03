@@ -3,7 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:loja_virtual/screens/checkout/components/card_text_field.dart';
 
 class CardBack extends StatelessWidget {
-  const CardBack({Key? key}) : super(key: key);
+  final FocusNode cvvFocus;
+  const CardBack({
+    Key? key,
+    required this.cvvFocus,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class CardBack extends StatelessWidget {
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                       ],
+                      focusNode: cvvFocus,
                       validator: (cvv) {
                         if (cvv == null || cvv.length != 3)
                           return 'Inválido';

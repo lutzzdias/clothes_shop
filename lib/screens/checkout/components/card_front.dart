@@ -6,7 +6,18 @@ import 'package:loja_virtual/screens/checkout/components/card_text_field.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CardFront extends StatelessWidget {
-  CardFront({Key? key}) : super(key: key);
+  final FocusNode numberFocus;
+  final FocusNode dateFocus;
+  final FocusNode nameFocus;
+  final VoidCallback finished;
+
+  CardFront({
+    Key? key,
+    required this.numberFocus,
+    required this.dateFocus,
+    required this.nameFocus,
+    required this.finished,
+  }) : super(key: key);
 
   final dateFormatter = MaskTextInputFormatter(
     mask: '!#/####',
@@ -43,6 +54,7 @@ class CardFront extends StatelessWidget {
                       FilteringTextInputFormatter.digitsOnly,
                       CartaoBancarioInputFormatter(),
                     ],
+                    focusNode: numberFocus,
                     validator: (number) {
                       if (number == null ||
                           number.length != 19 ||
@@ -51,29 +63,34 @@ class CardFront extends StatelessWidget {
                       else
                         return null;
                     },
+                    onSubmitted: (_) => dateFocus.requestFocus(),
                   ),
                   CardTextField(
                     title: 'Validade',
                     hint: '11/2027',
                     textInputType: TextInputType.number,
                     inputFormatters: [dateFormatter],
+                    focusNode: dateFocus,
                     validator: (date) {
                       if (date == null || date.length != 7)
                         return 'Inválido';
                       else
                         return null;
                     },
+                    onSubmitted: (_) => nameFocus.requestFocus(),
                   ),
                   CardTextField(
                     title: 'Título',
                     hint: 'Thiago Lütz Dias',
                     bold: true,
+                    focusNode: nameFocus,
                     validator: (name) {
                       if (name == null || name.isEmpty)
                         return 'Inválido';
                       else
                         return null;
                     },
+                    onSubmitted: (_) => finished(),
                   ),
                 ],
               ),
