@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
               );
             case '/checkout':
               return MaterialPageRoute(
-                builder: (_) => const CheckoutScreen(),
+                builder: (_) => CheckoutScreen(),
               );
             case '/confirmation':
               return MaterialPageRoute(

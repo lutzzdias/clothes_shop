@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/common/price_card.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/checkout_manager.dart';
+import 'package:loja_virtual/screens/checkout/components/credit_card_widget.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  CheckoutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +42,36 @@ class CheckoutScreen extends StatelessWidget {
                     ],
                   ),
                 )
-              : ListView(
-                  children: [
-                    PriceCard(
-                      buttonText: 'Finalizar pedido',
-                      onPressed: () async {
-                        await checkoutManager.checkout(onStockFail: (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(e.toString()),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          Navigator.of(context).popUntil(
-                              (route) => route.settings.name == '/cart');
-                        }, onSuccess: (order) {
-                          Navigator.of(context)
-                              .popUntil((route) => route.settings.name == '/');
-                          Navigator.of(context)
-                              .pushNamed('/confirmation', arguments: order);
-                        });
-                      },
-                    ),
-                  ],
+              : Form(
+                  key: formKey,
+                  child: ListView(
+                    children: [
+                      CreditCardWidget(),
+                      PriceCard(
+                        buttonText: 'Finalizar pedido',
+                        onPressed: () async {
+                          // if (formKey.currentState!.validate()) print('foi');
+                          if (formKey.currentState!.validate()) {
+                            await checkoutManager.checkout(onStockFail: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(e.toString()),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              Navigator.of(context).popUntil(
+                                  (route) => route.settings.name == '/cart');
+                            }, onSuccess: (order) {
+                              Navigator.of(context).popUntil(
+                                  (route) => route.settings.name == '/');
+                              Navigator.of(context)
+                                  .pushNamed('/confirmation', arguments: order);
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
         ),
       ),

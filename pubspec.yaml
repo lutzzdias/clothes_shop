@@ -97,6 +97,12 @@ dependencies:
   # used to render the map icons, which are themselves svgs
   flutter_svg: ^1.1.6
 
+  # package of animation in order to animate credit card widget
+  flip_card: ^0.7.0
+
+  # used to make custom text formatters
+  mask_text_input_formatter: ^2.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
