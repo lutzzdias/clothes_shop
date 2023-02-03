@@ -1,4 +1,5 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loja_virtual/screens/checkout/components/card_text_field.dart';
@@ -43,7 +44,9 @@ class CardFront extends StatelessWidget {
                       CartaoBancarioInputFormatter(),
                     ],
                     validator: (number) {
-                      if (number == null || number.length != 19)
+                      if (number == null ||
+                          number.length != 19 ||
+                          detectCCType(number) == CreditCardType.unknown)
                         return 'Inválido';
                       else
                         return null;

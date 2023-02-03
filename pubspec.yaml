@@ -103,6 +103,9 @@ dependencies:
   # used to make custom text formatters
   mask_text_input_formatter: ^2.4.0
 
+  # used to detect what is the flag of the entered credit card number
+  credit_card_type_detector: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
