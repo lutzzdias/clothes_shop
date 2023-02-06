@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 floating: true,
                 snap: true,
                 flexibleSpace: const FlexibleSpaceBar(
-                  title: Text('Loja do Lütz'),
+                  title: Text('Loja SESI'),
                   centerTitle: true,
                 ),
                 actions: [
