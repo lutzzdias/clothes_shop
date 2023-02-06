@@ -4,12 +4,14 @@ import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/credit_card.dart';
 import 'package:loja_virtual/models/order.dart' as model;
 import 'package:loja_virtual/models/product.dart';
+import 'package:loja_virtual/services/cielo_payment.dart';
 
 class CheckoutManager extends ChangeNotifier {
   late CartManager cartManager;
   bool _loading = false;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CieloPayment _cieloPayment = CieloPayment();
 
   bool get loading => _loading;
   set loading(bool value) {
@@ -27,6 +29,15 @@ class CheckoutManager extends ChangeNotifier {
     required Function onSuccess,
   }) async {
     loading = true;
+
+    final orderId = await _getOrderId();
+    _cieloPayment.authorize(
+      creditCard: creditCard,
+      price: cartManager.totalPrice,
+      orderId: orderId.toString(),
+      user: cartManager.user!,
+    );
+
     try {
       await _decrementStock();
     } catch (e) {
@@ -37,7 +48,6 @@ class CheckoutManager extends ChangeNotifier {
 
     // TODO: Process payment
 
-    final orderId = await _getOrderId();
     final order = model.Order.fromCartManager(cartManager, orderId.toString());
     order.save();
 
