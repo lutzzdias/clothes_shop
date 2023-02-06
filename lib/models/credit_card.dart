@@ -1,25 +1,36 @@
 import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 
 class CreditCard {
-  late String _number;
-  late String _holder;
-  late String _expirationDate;
-  late String _securityCode;
-  late String _brand;
+  String? _number;
+  String? _holder;
+  String? _expirationDate;
+  String? _securityCode;
+  String? _brand;
 
   CreditCard();
 
-  set number(String number) {
+  set number(String? number) {
     _number = number;
-    _brand = detectCCType(number.replaceAll(' ', '')).toString();
+    _brand = number == null
+        ? ''
+        : detectCCType(number.replaceAll(' ', '')).toString();
   }
 
-  set holder(String name) => _holder = name;
-  set expirationDate(String date) => _expirationDate = date;
-  set securityCode(String securityCode) => _securityCode = securityCode;
+  String? get number => _number;
+
+  set holder(String? name) => _holder = name;
+  String? get holder => _holder;
+
+  set expirationDate(String? date) => _expirationDate = date;
+  String? get expirationDate => _expirationDate;
+
+  set securityCode(String? securityCode) => _securityCode = securityCode;
+  String? get securityCode => _securityCode;
+
+  String? get brand => _brand;
 
   Map<String, dynamic> toMap() => {
-        'cardNumber': _number.replaceAll(' ', ''),
+        'cardNumber': _number?.replaceAll(' ', ''),
         'holder': _holder,
         'expirationDate': _expirationDate,
         'securityCode': _securityCode,

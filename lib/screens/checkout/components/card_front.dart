@@ -53,6 +53,7 @@ class CardFront extends StatelessWidget {
                     hint: '0000 0000 0000 0000',
                     textInputType: TextInputType.number,
                     bold: true,
+                    initialValue: creditCard.number ?? '',
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       CartaoBancarioInputFormatter(),
@@ -75,6 +76,7 @@ class CardFront extends StatelessWidget {
                     textInputType: TextInputType.number,
                     inputFormatters: [dateFormatter],
                     focusNode: dateFocus,
+                    initialValue: creditCard.expirationDate ?? '',
                     validator: (date) {
                       if (date == null || date.length != 7)
                         return 'Inválido';
@@ -89,6 +91,7 @@ class CardFront extends StatelessWidget {
                     hint: 'Thiago Lütz Dias',
                     bold: true,
                     focusNode: nameFocus,
+                    initialValue: creditCard.holder ?? '',
                     validator: (name) {
                       if (name == null || name.isEmpty)
                         return 'Inválido';

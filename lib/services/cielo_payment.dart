@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:loja_virtual/models/credit_card.dart';
 import 'package:loja_virtual/models/user.dart';
 
@@ -22,6 +23,7 @@ class CieloPayment {
 
     // get response
 
+    debugPrint('mock success');
     return Future.value('mock success');
   }
 }

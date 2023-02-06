@@ -45,6 +45,7 @@ class CardBack extends StatelessWidget {
                       maxLength: 3,
                       textAlign: TextAlign.end,
                       textInputType: TextInputType.number,
+                      initialValue: creditCard.securityCode ?? '',
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                       ],
