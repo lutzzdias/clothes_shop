@@ -109,6 +109,9 @@ dependencies:
   # used to show a bar above the keyboard in iOS
   keyboard_actions: ^4.1.0
 
+  # used to validate the cpf field
+  cpf_cnpj_validator: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

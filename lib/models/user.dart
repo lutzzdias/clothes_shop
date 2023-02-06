@@ -4,6 +4,7 @@ import 'package:loja_virtual/models/address.dart';
 class User {
   String id;
   String name;
+  String cpf;
   String email;
   String? password;
   String? confirmPassword;
@@ -13,6 +14,7 @@ class User {
   User({
     this.id = '',
     this.name = '',
+    this.cpf = '',
     required this.email,
     required this.password,
     this.confirmPassword = '',
@@ -22,6 +24,7 @@ class User {
   User.fromDocument(DocumentSnapshot document)
       : id = document.id,
         name = document.get('name'),
+        cpf = document.get('cpf'),
         email = document.get('email'),
         admin = false {
     address = document.data().toString().contains('address')
@@ -32,6 +35,7 @@ class User {
   User.empty({
     this.id = '',
     this.name = '',
+    this.cpf = '',
     this.email = '',
     this.password = '',
     this.confirmPassword = '',
@@ -52,8 +56,14 @@ class User {
     saveData();
   }
 
+  void setCpf(String cpf) {
+    this.cpf = cpf;
+    saveData();
+  }
+
   Map<String, dynamic> toMap() => {
         'name': name,
+        if (cpf.isNotEmpty) 'cpf': cpf,
         'email': email,
         if (address != null) 'address': address!.toMap(),
       };

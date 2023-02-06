@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja_virtual/common/price_card.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/checkout_manager.dart';
+import 'package:loja_virtual/screens/checkout/components/cpf_field.dart';
 import 'package:loja_virtual/screens/checkout/components/credit_card_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -50,27 +51,32 @@ class CheckoutScreen extends StatelessWidget {
                     key: formKey,
                     child: ListView(
                       children: [
-                        CreditCardWidget(),
+                        const CreditCardWidget(),
+                        const CpfField(),
                         PriceCard(
                           buttonText: 'Finalizar pedido',
                           onPressed: () async {
-                            // if (formKey.currentState!.validate()) print('foi');
                             if (formKey.currentState!.validate()) {
-                              await checkoutManager.checkout(onStockFail: (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(e.toString()),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                                Navigator.of(context).popUntil(
-                                    (route) => route.settings.name == '/cart');
-                              }, onSuccess: (order) {
-                                Navigator.of(context).popUntil(
-                                    (route) => route.settings.name == '/');
-                                Navigator.of(context).pushNamed('/confirmation',
-                                    arguments: order);
-                              });
+                              formKey.currentState!.save();
+                              await checkoutManager.checkout(
+                                onStockFail: (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                  Navigator.of(context).popUntil((route) =>
+                                      route.settings.name == '/cart');
+                                },
+                                onSuccess: (order) {
+                                  Navigator.of(context).popUntil(
+                                      (route) => route.settings.name == '/');
+                                  Navigator.of(context).pushNamed(
+                                      '/confirmation',
+                                      arguments: order);
+                                },
+                              );
                             }
                           },
                         ),
