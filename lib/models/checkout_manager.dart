@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
+import 'package:loja_virtual/models/credit_card.dart';
 import 'package:loja_virtual/models/order.dart' as model;
 import 'package:loja_virtual/models/product.dart';
 
@@ -20,8 +21,11 @@ class CheckoutManager extends ChangeNotifier {
     this.cartManager = cartManager;
   }
 
-  Future<void> checkout(
-      {required Function onStockFail, required Function onSuccess}) async {
+  Future<void> checkout({
+    required CreditCard creditCard,
+    required Function onStockFail,
+    required Function onSuccess,
+  }) async {
     loading = true;
     try {
       await _decrementStock();

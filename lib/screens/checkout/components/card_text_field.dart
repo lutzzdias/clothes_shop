@@ -13,6 +13,7 @@ class CardTextField extends StatelessWidget {
   final FocusNode focusNode;
   final Function(String)? onSubmitted;
   final TextInputAction textInputAction;
+  final Function(String?)? onSaved;
 
   const CardTextField({
     Key? key,
@@ -26,6 +27,7 @@ class CardTextField extends StatelessWidget {
     this.textAlign = TextAlign.start,
     required this.focusNode,
     this.onSubmitted,
+    required this.onSaved,
   })  : textInputAction =
             onSubmitted == null ? TextInputAction.done : TextInputAction.next,
         super(key: key);
@@ -86,6 +88,7 @@ class CardTextField extends StatelessWidget {
               focusNode: focusNode,
               onFieldSubmitted: onSubmitted,
               onChanged: (text) => state.didChange(text),
+              onSaved: onSaved,
             ),
           ],
         ),
