@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/':
               return MaterialPageRoute(
-                  builder: (_) => BaseScreen(), settings: settings);
+                  builder: (_) => const BaseScreen(), settings: settings);
             case '/signup':
               return MaterialPageRoute(builder: (_) => SignUpScreen());
             case '/login':
@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
                     ConfirmationScreen(order: settings.arguments as Order),
               );
             default:
-              return MaterialPageRoute(builder: (_) => BaseScreen());
+              return MaterialPageRoute(builder: (_) => const BaseScreen());
           }
         },
       ),

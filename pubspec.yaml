@@ -115,6 +115,9 @@ dependencies:
   # used in order to send notifications
   firebase_messaging: ^14.2.1
 
+  # used to customize the notifications UI
+  another_flushbar: ^1.12.29
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

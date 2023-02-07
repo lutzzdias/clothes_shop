@@ -31,12 +31,19 @@ class CheckoutManager extends ChangeNotifier {
     loading = true;
 
     final orderId = await _getOrderId();
-    _cieloPayment.authorize(
-      creditCard: creditCard,
-      price: cartManager.totalPrice,
-      orderId: orderId.toString(),
-      user: cartManager.user!,
-    );
+    String paymentId;
+    try {
+      paymentId = await _cieloPayment.authorize(
+        creditCard: creditCard,
+        price: cartManager.totalPrice,
+        orderId: orderId.toString(),
+        user: cartManager.user!,
+      );
+    } catch (e) {
+      debugPrint('Payment not authorized');
+      loading = false;
+      return;
+    }
 
     try {
       await _decrementStock();
@@ -47,7 +54,13 @@ class CheckoutManager extends ChangeNotifier {
       return;
     }
 
-    // TODO: Process payment
+    try {
+      _cieloPayment.capture(paymentId);
+    } catch (e) {
+      debugPrint('Payment not captured');
+      loading = false;
+      return;
+    }
 
     final order = model.Order.fromCartManager(cartManager, orderId.toString());
     order.save();

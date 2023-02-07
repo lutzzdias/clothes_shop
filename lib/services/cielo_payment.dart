@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:loja_virtual/models/credit_card.dart';
 import 'package:loja_virtual/models/user.dart';
+import 'package:uuid/uuid.dart';
 
 class CieloPayment {
-  Future<void> authorize({
+  Future<String> authorize({
     required CreditCard creditCard,
     required num price,
     required String orderId,
@@ -24,7 +25,7 @@ class CieloPayment {
     // get response
 
     debugPrint('mock authorized');
-    return;
+    return Future.value(const Uuid().v4());
   }
 
   Future<void> capture(String paymentId) async {
