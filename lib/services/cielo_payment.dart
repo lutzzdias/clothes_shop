@@ -8,7 +8,7 @@ class CieloPayment {
     required num price,
     required String orderId,
     required User user,
-  }) {
+  }) async {
     final Map<String, dynamic> dataSale = {
       'merchantOrderId': orderId,
       'amount': (price * 100).toInt(), // Price is sent as cents
@@ -24,7 +24,7 @@ class CieloPayment {
     // get response
 
     debugPrint('mock authorized');
-    return Future.value('mock success');
+    return;
   }
 
   Future<void> capture(String paymentId) async {
@@ -37,7 +37,7 @@ class CieloPayment {
     // Get response
 
     debugPrint('mock captured');
-    return Future.value('mock captured');
+    return;
   }
 
   Future<void> cancel(String paymentId) async {
@@ -50,6 +50,6 @@ class CieloPayment {
     // Get response
 
     debugPrint('mock canceled');
-    return Future.value('mock canceled');
+    return;
   }
 }

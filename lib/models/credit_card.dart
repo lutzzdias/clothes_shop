@@ -2,9 +2,9 @@ import 'package:credit_card_type_detector/credit_card_type_detector.dart';
 
 class CreditCard {
   String? _number;
-  String? _holder;
-  String? _expirationDate;
-  String? _securityCode;
+  String? holder;
+  String? expirationDate;
+  String? securityCode;
   String? _brand;
 
   CreditCard();
@@ -18,27 +18,18 @@ class CreditCard {
 
   String? get number => _number;
 
-  set holder(String? name) => _holder = name;
-  String? get holder => _holder;
-
-  set expirationDate(String? date) => _expirationDate = date;
-  String? get expirationDate => _expirationDate;
-
-  set securityCode(String? securityCode) => _securityCode = securityCode;
-  String? get securityCode => _securityCode;
-
   String? get brand => _brand;
 
   Map<String, dynamic> toMap() => {
         'cardNumber': _number?.replaceAll(' ', ''),
-        'holder': _holder,
-        'expirationDate': _expirationDate,
-        'securityCode': _securityCode,
+        'holder': holder,
+        'expirationDate': expirationDate,
+        'securityCode': securityCode,
         'brand': _brand,
       };
 
   @override
   String toString() {
-    return 'CreditCard{_number: $_number, _holder: $_holder, _expirationDate: $_expirationDate, _securityCode: $_securityCode, brand: $_brand}';
+    return 'CreditCard{_number: $_number, _holder: $holder, _expirationDate: $expirationDate, _securityCode: $securityCode, brand: $_brand}';
   }
 }
