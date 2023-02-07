@@ -10,7 +10,7 @@ class CieloPayment {
     required String orderId,
     required User user,
   }) async {
-    final Map<String, dynamic> dataSale = {
+    final Map<String, dynamic> authorizeData = {
       'merchantOrderId': orderId,
       'amount': (price * 100).toInt(), // Price is sent as cents
       'softDescriptor': 'Loja SESI',
@@ -20,7 +20,7 @@ class CieloPayment {
       'paymentType': 'CreditCard',
     };
 
-    // Call to cloud function
+    // Call to cloud function passing authorizeData
 
     // get response
 
@@ -33,7 +33,7 @@ class CieloPayment {
       'paymentId': paymentId,
     };
 
-    // Call to cloud function
+    // Call to cloud function passing captureData
 
     // Get response
 
@@ -46,7 +46,7 @@ class CieloPayment {
       'paymentId': paymentId,
     };
 
-    // Call to cloud function
+    // Call to cloud function passing cancelData
 
     // Get response
 
