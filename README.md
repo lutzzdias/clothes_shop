@@ -1,4 +1,5 @@
-![[assets/print-home.png]]
+<img src="https://github.com/lutzzdias/clothes-shop/blob/main/assets/print-home.png?raw=true"/>
+
 
 ## Description
 
