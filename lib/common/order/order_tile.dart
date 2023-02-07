@@ -67,6 +67,7 @@ class OrderTile extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: () => showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (_) => CancelOrderDialog(
                         order: order,

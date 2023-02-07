@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:loja_virtual/models/address.dart';
 import 'package:loja_virtual/models/cart_manager.dart';
 import 'package:loja_virtual/models/cart_product.dart';
+import 'package:loja_virtual/services/cielo_payment.dart';
 
 enum Status {
   canceled,
@@ -64,7 +65,8 @@ class Order {
         : null;
   }
 
-  void cancel() {
+  Future<void> cancel() async {
+    await CieloPayment().cancel('paymentId');
     status = Status.canceled;
     _firestoreRef.update({'status': status.index});
   }

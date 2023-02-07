@@ -19,11 +19,37 @@ class CieloPayment {
       'paymentType': 'CreditCard',
     };
 
-    // Call to cloud functions
+    // Call to cloud function
 
     // get response
 
-    debugPrint('mock success');
+    debugPrint('mock authorized');
     return Future.value('mock success');
+  }
+
+  Future<void> capture(String paymentId) async {
+    final Map<String, dynamic> captureData = {
+      'paymentId': paymentId,
+    };
+
+    // Call to cloud function
+
+    // Get response
+
+    debugPrint('mock captured');
+    return Future.value('mock captured');
+  }
+
+  Future<void> cancel(String paymentId) async {
+    final Map<String, dynamic> cancelData = {
+      'paymentId': paymentId,
+    };
+
+    // Call to cloud function
+
+    // Get response
+
+    debugPrint('mock canceled');
+    return Future.value('mock canceled');
   }
 }

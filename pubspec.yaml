@@ -112,6 +112,9 @@ dependencies:
   # used to validate the cpf field
   cpf_cnpj_validator: ^2.0.0
 
+  # used in order to send notifications
+  firebase_messaging: ^14.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
